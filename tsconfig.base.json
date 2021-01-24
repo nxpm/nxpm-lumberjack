@@ -14,7 +14,30 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nxpm-lumberjack/api-app-module": ["apps/api/src/app/app.module.ts"],
+      "@nxpm-lumberjack/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
+      "@nxpm-lumberjack/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
+      "@nxpm-lumberjack/api/core/data-access": ["libs/api/core/data-access/src/index.ts"],
+      "@nxpm-lumberjack/api/core/feature": ["libs/api/core/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/about/feature": ["libs/web/about/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/assets": ["libs/web/assets/src/index.ts"],
+      "@nxpm-lumberjack/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
+      "@nxpm-lumberjack/web/auth/feature": ["libs/web/auth/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/auth/ui": ["libs/web/auth/ui/src/index.ts"],
+      "@nxpm-lumberjack/web/core/data-access": ["libs/web/core/data-access/src/index.ts"],
+      "@nxpm-lumberjack/web/core/feature": ["libs/web/core/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/dashboard/feature": ["libs/web/dashboard/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/layout": ["libs/web/layout/src/index.ts"],
+      "@nxpm-lumberjack/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/style": ["libs/web/style/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/form": ["libs/web/ui/form/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/icon": ["libs/web/ui/icon/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/loader": ["libs/web/ui/loader/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/page": ["libs/web/ui/page/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/page-header": ["libs/web/ui/page-header/src/index.ts"],
+      "@nxpm-lumberjack/web/ui/sidebar-page": ["libs/web/ui/sidebar-page/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
