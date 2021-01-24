@@ -33,6 +33,8 @@
       "@nxpm-lumberjack/web/core/feature": ["libs/web/core/feature/src/index.ts"],
       "@nxpm-lumberjack/web/dashboard/feature": ["libs/web/dashboard/feature/src/index.ts"],
       "@nxpm-lumberjack/web/layout": ["libs/web/layout/src/index.ts"],
+      "@nxpm-lumberjack/web/log/feature": ["libs/web/log/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/log/ui": ["libs/web/log/ui/src/index.ts"],
       "@nxpm-lumberjack/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
       "@nxpm-lumberjack/web/style": ["libs/web/style/src/index.ts"],
       "@nxpm-lumberjack/web/ui/form": ["libs/web/ui/form/src/index.ts"],

@@ -18,6 +18,10 @@ import { WebAdminFeatureComponent } from './web-admin-feature.component'
             path: 'dashboard',
             loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then((m) => m.AdminDashboardModule),
           },
+          {
+            path: 'logs',
+            loadChildren: () => import('@nxpm-lumberjack/web/log/feature').then((m) => m.WebLogFeatureModule),
+          },
         ],
       },
     ]),

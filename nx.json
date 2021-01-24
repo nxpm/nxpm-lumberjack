@@ -87,6 +87,12 @@
     "web-layout": {
       "tags": ["scope:web", "type:layout"]
     },
+    "web-log-feature": {
+      "tags": ["scope:web", "type:feature"]
+    },
+    "web-log-ui": {
+      "tags": ["scope:web", "type:feature"]
+    },
     "web-shell-feature": {
       "tags": ["scope:web", "type:feature"]
     },

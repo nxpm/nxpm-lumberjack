@@ -554,6 +554,52 @@
         }
       }
     },
+    "web-log-feature": {
+      "projectType": "library",
+      "root": "libs/web/log/feature",
+      "sourceRoot": "libs/web/log/feature/src",
+      "prefix": "nxpm-lumberjack",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/log/feature/tsconfig.lib.json", "libs/web/log/feature/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/log/feature/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/log/feature"],
+          "options": {
+            "jestConfig": "libs/web/log/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-log-ui": {
+      "projectType": "library",
+      "root": "libs/web/log/ui",
+      "sourceRoot": "libs/web/log/ui/src",
+      "prefix": "nxpm-lumberjack",
+      "targets": {
+        "lint": {
+          "executor": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/web/log/ui/tsconfig.lib.json", "libs/web/log/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/web/log/ui/**/*"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/log/ui"],
+          "options": {
+            "jestConfig": "libs/web/log/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web-shell-feature": {
       "projectType": "library",
       "root": "libs/web/shell/feature",
