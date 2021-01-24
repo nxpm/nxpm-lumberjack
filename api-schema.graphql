@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CorePaging {
+  limit: Int
+  skip: Int
+  total: Int
+}
+
 input CorePagingInput {
   limit: Int = 10
   skip: Int = 0
@@ -30,6 +36,7 @@ type Log {
   level: LogLevel
   message: String
   payload: JSON
+  system: Boolean
   updatedAt: DateTime
   user: String
 }
@@ -54,6 +61,7 @@ type Mutation {
 }
 
 type Query {
+  adminCountLogs(input: CorePagingInput!): CorePaging
   adminLog(logId: String!): Log
   adminLogs(input: CorePagingInput!): [Log!]
   me: User

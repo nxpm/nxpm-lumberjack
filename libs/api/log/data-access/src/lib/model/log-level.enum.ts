@@ -1,5 +1,12 @@
 import { registerEnumType } from '@nestjs/graphql'
-import { LogLevel } from '@prisma/client'
+
+enum LogLevel {
+  Debug = 'Debug',
+  Error = 'Error',
+  Info = 'Info',
+  Warning = 'Warning',
+}
+
 export { LogLevel }
 
 registerEnumType(LogLevel, { name: 'LogLevel' })

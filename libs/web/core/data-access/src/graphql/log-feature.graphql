@@ -3,6 +3,7 @@ fragment LogDetail on Log {
   createdAt
   updatedAt
   level
+  system
   message
   payload
   ip
@@ -10,8 +11,13 @@ fragment LogDetail on Log {
 }
 
 query AdminLogs($input: CorePagingInput!) {
-  adminLogs(input: $input) {
+  items: adminLogs(input: $input) {
     ...LogDetail
+  }
+  count: adminCountLogs(input: $input) {
+    total
+    limit
+    skip
   }
 }
 

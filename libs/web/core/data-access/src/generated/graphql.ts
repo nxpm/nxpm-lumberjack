@@ -19,6 +19,13 @@ export type Scalars = {
   JSON: any
 }
 
+export type CorePaging = {
+  __typename?: 'CorePaging'
+  limit?: Maybe<Scalars['Int']>
+  skip?: Maybe<Scalars['Int']>
+  total?: Maybe<Scalars['Int']>
+}
+
 export type CorePagingInput = {
   limit?: Maybe<Scalars['Int']>
   skip?: Maybe<Scalars['Int']>
@@ -39,6 +46,7 @@ export type Log = {
   level?: Maybe<LogLevel>
   message?: Maybe<Scalars['String']>
   payload?: Maybe<Scalars['JSON']>
+  system?: Maybe<Scalars['Boolean']>
   updatedAt?: Maybe<Scalars['DateTime']>
   user?: Maybe<Scalars['String']>
 }
@@ -79,10 +87,15 @@ export type MutationRegisterArgs = {
 
 export type Query = {
   __typename?: 'Query'
+  adminCountLogs?: Maybe<CorePaging>
   adminLog?: Maybe<Log>
   adminLogs?: Maybe<Array<Log>>
   me?: Maybe<User>
   uptime?: Maybe<Scalars['Float']>
+}
+
+export type QueryAdminCountLogsArgs = {
+  input: CorePagingInput
 }
 
 export type QueryAdminLogArgs = {
@@ -202,7 +215,7 @@ export type IntercomSubSubscription = { __typename?: 'Subscription' } & {
 
 export type LogDetailFragment = { __typename?: 'Log' } & Pick<
   Log,
-  'id' | 'createdAt' | 'updatedAt' | 'level' | 'message' | 'payload' | 'ip' | 'user'
+  'id' | 'createdAt' | 'updatedAt' | 'level' | 'system' | 'message' | 'payload' | 'ip' | 'user'
 >
 
 export type AdminLogsQueryVariables = Exact<{
@@ -210,7 +223,8 @@ export type AdminLogsQueryVariables = Exact<{
 }>
 
 export type AdminLogsQuery = { __typename?: 'Query' } & {
-  adminLogs?: Maybe<Array<{ __typename?: 'Log' } & LogDetailFragment>>
+  items?: Maybe<Array<{ __typename?: 'Log' } & LogDetailFragment>>
+  count?: Maybe<{ __typename?: 'CorePaging' } & Pick<CorePaging, 'total' | 'limit' | 'skip'>>
 }
 
 export type AdminLogQueryVariables = Exact<{
@@ -252,6 +266,7 @@ export const LogDetailFragmentDoc = gql`
     createdAt
     updatedAt
     level
+    system
     message
     payload
     ip
@@ -387,8 +402,13 @@ export class IntercomSubGQL extends Apollo.Subscription<IntercomSubSubscription,
 }
 export const AdminLogsDocument = gql`
   query AdminLogs($input: CorePagingInput!) {
-    adminLogs(input: $input) {
+    items: adminLogs(input: $input) {
       ...LogDetail
+    }
+    count: adminCountLogs(input: $input) {
+      total
+      limit
+      skip
     }
   }
   ${LogDetailFragmentDoc}

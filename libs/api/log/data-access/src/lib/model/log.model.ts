@@ -13,6 +13,9 @@ export class Log {
   @Field({ nullable: true })
   updatedAt?: Date
 
+  @Field({ nullable: true })
+  system?: boolean
+
   @Field(() => LogLevel, { nullable: true })
   level?: LogLevel
 
