@@ -21,6 +21,8 @@
       "@nxpm-lumberjack/api/core/data-access": ["libs/api/core/data-access/src/index.ts"],
       "@nxpm-lumberjack/api/core/feature": ["libs/api/core/feature/src/index.ts"],
       "@nxpm-lumberjack/web/about/feature": ["libs/web/about/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/admin/feature": ["libs/web/admin/feature/src/index.ts"],
+      "@nxpm-lumberjack/web/admin/ui": ["libs/web/admin/ui/src/index.ts"],
       "@nxpm-lumberjack/web/assets": ["libs/web/assets/src/index.ts"],
       "@nxpm-lumberjack/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
       "@nxpm-lumberjack/web/auth/feature": ["libs/web/auth/feature/src/index.ts"],

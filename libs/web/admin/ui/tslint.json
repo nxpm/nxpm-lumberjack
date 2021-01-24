@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../tslint.json",
+  "rules": {
+    "directive-selector": [true, "attribute", "nxpmLumberjack", "camelCase"],
+    "component-selector": [true, "element", "nxpm-lumberjack", "kebab-case"]
+  },
+  "linterOptions": {
+    "exclude": ["!**/*"]
+  }
+}

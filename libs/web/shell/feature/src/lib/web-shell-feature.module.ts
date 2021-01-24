@@ -11,11 +11,14 @@ const routes: Routes = [
     component: WebLayoutComponent,
     canActivate: [IsLoggedInGuard],
     children: [
-      // Application routes here
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'about',
         loadChildren: () => import('@nxpm-lumberjack/web/about/feature').then((m) => m.WebAboutFeatureModule),
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('@nxpm-lumberjack/web/admin/feature').then((m) => m.WebAdminFeatureModule),
       },
       {
         path: 'dashboard',

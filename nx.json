@@ -47,6 +47,12 @@
     "web-about-feature": {
       "tags": ["scope:web", "type:feature"]
     },
+    "web-admin-feature": {
+      "tags": ["scope:web", "type:feature"]
+    },
+    "web-admin-ui": {
+      "tags": ["scope:web", "type:feature"]
+    },
     "web-assets": {
       "tags": ["scope:web", "type:assets"]
     },
