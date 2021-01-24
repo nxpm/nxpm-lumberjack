@@ -8,7 +8,7 @@ generator client {
   binaryTargets = ["native"]
 }
 
-model User {
+model UserModel {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -23,9 +23,29 @@ model User {
   location  String?
   phone     String?
   bio       String?
+  logs      Log[]    @relation("User_hasMany_Logs")
 }
 
 enum Role {
   Admin
-  User
+  UserModel
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  level     LogLevel
+  message   String
+  payload   Json
+  ip        String?
+  user      UserModel?    @relation(name: "User_hasMany_Logs", fields: [userId], references: [id])
+  userId    String?
+}
+
+enum LogLevel {
+  Debug
+  Error
+  Info
+  Warning
 }

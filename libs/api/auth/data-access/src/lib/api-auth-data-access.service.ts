@@ -11,7 +11,7 @@ import { Response } from 'express'
 import { LoginInput } from './dto/login.input'
 import { RegisterInput } from './dto/register.input'
 import { UserToken } from './models/user-token'
-import { Role } from './models/role'
+import { Role } from './models/role.enum'
 
 @Injectable()
 export class ApiAuthDataAccessService {

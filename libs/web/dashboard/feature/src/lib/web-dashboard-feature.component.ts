@@ -13,7 +13,7 @@ import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
             <button class="px-3 py-1 rounded bg-gray-200 text-gray-700" (click)="testDebug()">Debug</button>
             <button class="px-3 py-1 rounded bg-red-200 text-red-700" (click)="testError()">Error</button>
             <button class="px-3 py-1 rounded bg-blue-200 text-blue-700" (click)="testInfo()">Info</button>
-            <button class="px-3 py-1 rounded bg-yellow-200 text-yellow-700" (click)="testWarn()">Warn</button>
+            <button class="px-3 py-1 rounded bg-yellow-200 text-yellow-700" (click)="testWarning()">Warning</button>
           </div>
         </div>
         <div class="card-footer">Server uptime: {{ uptime$ | async }}</div>
@@ -38,7 +38,7 @@ export class WebDashboardFeatureComponent {
     this.log.info('This is an Info Log', { some: 'extra', data: 'object' })
   }
 
-  testWarn() {
-    this.log.warn('This is an Info Log', { some: 'extra', data: 'object' })
+  testWarning() {
+    this.log.warning('This is an Info Log', { some: 'extra', data: 'object' })
   }
 }

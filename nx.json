@@ -41,6 +41,12 @@
     "api-e2e": {
       "tags": []
     },
+    "api-log-data-access": {
+      "tags": ["scope:api", "type:data-access"]
+    },
+    "api-log-feature": {
+      "tags": ["scope:api", "type:feature"]
+    },
     "web": {
       "tags": []
     },

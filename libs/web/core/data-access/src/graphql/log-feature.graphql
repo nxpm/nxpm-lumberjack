@@ -1,0 +1,22 @@
+fragment LogDetail on Log {
+  id
+  createdAt
+  updatedAt
+  level
+  message
+  payload
+  ip
+  user
+}
+
+query AdminLogs($input: CorePagingInput!) {
+  adminLogs(input: $input) {
+    ...LogDetail
+  }
+}
+
+query AdminLog($logId: String!) {
+  adminLog(logId: $logId) {
+    ...LogDetail
+  }
+}

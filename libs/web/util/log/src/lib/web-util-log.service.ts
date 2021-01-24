@@ -41,7 +41,7 @@ export class WebUtilLogService {
     })
   }
 
-  warn(message: string, payload?: WebUtilLogPayload) {
+  warning(message: string, payload?: WebUtilLogPayload) {
     return this.lumberjack.log({
       scope: this.scope,
       level: LumberjackLevel.Warning,

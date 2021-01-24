@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core'
 import * as Apollo from 'apollo-angular'
 import * as ApolloCore from '@apollo/client/core'
 export type Maybe<T> = T | null
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K]
-}
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
 /** All built-in and custom scalars, mapped to their actual values */
@@ -21,6 +19,11 @@ export type Scalars = {
   JSON: any
 }
 
+export type CorePagingInput = {
+  limit?: Maybe<Scalars['Int']>
+  skip?: Maybe<Scalars['Int']>
+}
+
 export type IntercomMessage = {
   __typename?: 'IntercomMessage'
   payload?: Maybe<Scalars['JSON']>
@@ -28,9 +31,28 @@ export type IntercomMessage = {
   type?: Maybe<Scalars['String']>
 }
 
+export type Log = {
+  __typename?: 'Log'
+  createdAt?: Maybe<Scalars['DateTime']>
+  id?: Maybe<Scalars['String']>
+  ip?: Maybe<Scalars['String']>
+  level?: Maybe<LogLevel>
+  message?: Maybe<Scalars['String']>
+  payload?: Maybe<Scalars['JSON']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+  user?: Maybe<Scalars['String']>
+}
+
 export type LoginInput = {
   email: Scalars['String']
   password: Scalars['String']
+}
+
+export enum LogLevel {
+  Debug = 'Debug',
+  Error = 'Error',
+  Info = 'Info',
+  Warning = 'Warning',
 }
 
 export type Mutation = {
@@ -57,8 +79,18 @@ export type MutationRegisterArgs = {
 
 export type Query = {
   __typename?: 'Query'
+  adminLog?: Maybe<Log>
+  adminLogs?: Maybe<Array<Log>>
   me?: Maybe<User>
   uptime?: Maybe<Scalars['Float']>
+}
+
+export type QueryAdminLogArgs = {
+  logId: Scalars['String']
+}
+
+export type QueryAdminLogsArgs = {
+  input: CorePagingInput
 }
 
 export type RegisterInput = {
@@ -121,9 +153,7 @@ export type UserDetailsFragment = { __typename?: 'User' } & Pick<
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
-export type MeQuery = { __typename?: 'Query' } & {
-  me?: Maybe<{ __typename?: 'User' } & UserDetailsFragment>
-}
+export type MeQuery = { __typename?: 'Query' } & { me?: Maybe<{ __typename?: 'User' } & UserDetailsFragment> }
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never }>
 
@@ -170,6 +200,25 @@ export type IntercomSubSubscription = { __typename?: 'Subscription' } & {
   intercomSub?: Maybe<{ __typename?: 'IntercomMessage' } & IntercomDetailsFragment>
 }
 
+export type LogDetailFragment = { __typename?: 'Log' } & Pick<
+  Log,
+  'id' | 'createdAt' | 'updatedAt' | 'level' | 'message' | 'payload' | 'ip' | 'user'
+>
+
+export type AdminLogsQueryVariables = Exact<{
+  input: CorePagingInput
+}>
+
+export type AdminLogsQuery = { __typename?: 'Query' } & {
+  adminLogs?: Maybe<Array<{ __typename?: 'Log' } & LogDetailFragment>>
+}
+
+export type AdminLogQueryVariables = Exact<{
+  logId: Scalars['String']
+}>
+
+export type AdminLogQuery = { __typename?: 'Query' } & { adminLog?: Maybe<{ __typename?: 'Log' } & LogDetailFragment> }
+
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
     id
@@ -195,6 +244,18 @@ export const IntercomDetailsFragmentDoc = gql`
     type
     scope
     payload
+  }
+`
+export const LogDetailFragmentDoc = gql`
+  fragment LogDetail on Log {
+    id
+    createdAt
+    updatedAt
+    level
+    message
+    payload
+    ip
+    user
   }
 `
 export const MeDocument = gql`
@@ -324,6 +385,44 @@ export class IntercomSubGQL extends Apollo.Subscription<IntercomSubSubscription,
     super(apollo)
   }
 }
+export const AdminLogsDocument = gql`
+  query AdminLogs($input: CorePagingInput!) {
+    adminLogs(input: $input) {
+      ...LogDetail
+    }
+  }
+  ${LogDetailFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminLogsGQL extends Apollo.Query<AdminLogsQuery, AdminLogsQueryVariables> {
+  document = AdminLogsDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
+export const AdminLogDocument = gql`
+  query AdminLog($logId: String!) {
+    adminLog(logId: $logId) {
+      ...LogDetail
+    }
+  }
+  ${LogDetailFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminLogGQL extends Apollo.Query<AdminLogQuery, AdminLogQueryVariables> {
+  document = AdminLogDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -345,6 +444,8 @@ export class ApolloAngularSDK {
     private uptimeGql: UptimeGQL,
     private intercomPubGql: IntercomPubGQL,
     private intercomSubGql: IntercomSubGQL,
+    private adminLogsGql: AdminLogsGQL,
+    private adminLogGql: AdminLogGQL,
   ) {}
 
   me(variables?: MeQueryVariables, options?: QueryOptionsAlone<MeQueryVariables>) {
@@ -390,5 +491,21 @@ export class ApolloAngularSDK {
     options?: SubscriptionOptionsAlone<IntercomSubSubscriptionVariables>,
   ) {
     return this.intercomSubGql.subscribe(variables, options)
+  }
+
+  adminLogs(variables: AdminLogsQueryVariables, options?: QueryOptionsAlone<AdminLogsQueryVariables>) {
+    return this.adminLogsGql.fetch(variables, options)
+  }
+
+  adminLogsWatch(variables: AdminLogsQueryVariables, options?: WatchQueryOptionsAlone<AdminLogsQueryVariables>) {
+    return this.adminLogsGql.watch(variables, options)
+  }
+
+  adminLog(variables: AdminLogQueryVariables, options?: QueryOptionsAlone<AdminLogQueryVariables>) {
+    return this.adminLogGql.fetch(variables, options)
+  }
+
+  adminLogWatch(variables: AdminLogQueryVariables, options?: WatchQueryOptionsAlone<AdminLogQueryVariables>) {
+    return this.adminLogGql.watch(variables, options)
   }
 }

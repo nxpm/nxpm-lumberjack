@@ -159,6 +159,48 @@
         }
       }
     },
+    "api-log-data-access": {
+      "root": "libs/api/log/data-access",
+      "sourceRoot": "libs/api/log/data-access/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/log/data-access/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/log/data-access"],
+          "options": {
+            "jestConfig": "libs/api/log/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-log-feature": {
+      "root": "libs/api/log/feature",
+      "sourceRoot": "libs/api/log/feature/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/log/feature/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/log/feature"],
+          "options": {
+            "jestConfig": "libs/api/log/feature/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web": {
       "projectType": "application",
       "root": "apps/web",
