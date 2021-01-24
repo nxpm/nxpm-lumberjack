@@ -24,5 +24,6 @@ module.exports = {
     '<rootDir>/libs/web/ui/page',
     '<rootDir>/libs/web/ui/page-header',
     '<rootDir>/libs/web/ui/sidebar-page',
+    '<rootDir>/libs/web/util/log',
   ],
 }

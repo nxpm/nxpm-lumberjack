@@ -98,6 +98,9 @@
     },
     "web-ui-sidebar-page": {
       "tags": ["scope:web", "type:ui"]
+    },
+    "web-util-log": {
+      "tags": ["scope:web", "type:util"]
     }
   },
   "plugins": {

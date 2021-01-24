@@ -626,6 +626,28 @@
           }
         }
       }
+    },
+    "web-util-log": {
+      "projectType": "library",
+      "root": "libs/web/util/log",
+      "sourceRoot": "libs/web/util/log/src",
+      "prefix": "log",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web/util/log/src/**/*.ts", "libs/web/util/log/src/**/*.html"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/util/log"],
+          "options": {
+            "jestConfig": "libs/web/util/log/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
