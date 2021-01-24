@@ -8,6 +8,7 @@ export enum UiIcon {
   'minusCircle' = 'minusCircle',
   moon = 'moon',
   'plusCircle' = 'plusCircle',
+  refresh = 'refresh',
   spinner = 'spinner',
   sun = 'sun',
   trash = 'trash',

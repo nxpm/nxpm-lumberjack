@@ -15,7 +15,7 @@ interface LogListState {
 export class LogListStore extends ComponentStore<LogListState> {
   constructor(private readonly sdk: ApolloAngularSDK, private readonly log: WebUtilLogService) {
     super({ paging: { limit: 10, skip: 0 }, open: {} })
-    this.loadItemsEffect()
+    this.loadItemsEffect(this.paging$)
   }
 
   readonly paging$ = this.select(this.state$, (s) => s.paging)
@@ -33,19 +33,29 @@ export class LogListStore extends ComponentStore<LogListState> {
     open: { ...state.open, [itemId]: !state.open[itemId] },
   }))
 
-  readonly loadItemsEffect = this.effect(($) =>
+  readonly refreshEffect = this.effect(($) =>
     $.pipe(
-      tap(() => this.patchState({ loading: true })),
       withLatestFrom(this.paging$),
-      switchMap(([_, { skip, limit }]) =>
-        this.sdk
-          .adminLogsWatch({ input: { skip, limit } }, { fetchPolicy: 'no-cache', pollInterval: 3000 })
-          .valueChanges.pipe(
-            tapResponse(
-              (res) => this.patchState({ items: res.data?.items, paging: res.data.count }),
-              (e: any) => this.log.error('Error fetching Logs', e),
-            ),
+      tap(([_, input]) => this.loadItemsEffect(input)),
+    ),
+  )
+
+  readonly loadItemsEffect = this.effect<CorePaging>((paging$) =>
+    paging$.pipe(
+      tap(() => this.patchState({ loading: true })),
+      switchMap(({ skip, limit, total }) =>
+        this.sdk.adminLogs({ input: { skip, limit } }, { fetchPolicy: 'no-cache' }).pipe(
+          tapResponse(
+            (res) => {
+              const count = res.data.count
+              if (count.limit !== limit || count.skip !== skip || count.total !== total) {
+                this.patchState({ paging: res.data.count })
+              }
+              this.patchState({ items: res.data?.items })
+            },
+            (e: any) => this.log.error('Error fetching Logs', e),
           ),
+        ),
       ),
     ),
   )

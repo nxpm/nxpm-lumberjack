@@ -19,6 +19,9 @@ import { LogListStore } from './log-list.store'
               <button class="px-2 py-1 rounded-md border border-gray-600" (click)="setLimit(10)">10</button>
               <button class="px-2 py-1 rounded-md border border-gray-600" (click)="setLimit(20)">20</button>
               <button class="px-2 py-1 rounded-md border border-gray-600" (click)="setLimit(50)">50</button>
+              <button class="px-2 py-1" (click)="refreshEffect()">
+                <ui-icon class="text-gray-500 hover:text-gray-200" icon="refresh"></ui-icon>
+              </button>
             </div>
           </div>
         </div>
@@ -40,9 +43,9 @@ import { LogListStore } from './log-list.store'
               <div class="flex items-center justify-between">
                 <button
                   (click)="toggleItem(item)"
-                  class="text-xs flex font-medium text-gray-900 dark:text-gray-200 flex-grow font-mono cursor-pointer"
+                  class="text-xs flex font-medium text-gray-900 dark:text-gray-200 flex-grow font-mono cursor-pointer space-x-2"
                 >
-                  {{ item.message }}
+                  <span *ngIf="item.scope">[{{ item.scope }}]</span> <span>{{ item.message }}</span>
                 </button>
                 <div class="flex space-x-2 items-center">
                   <div class="whitespace-nowrap">
@@ -103,6 +106,10 @@ export class LogListComponent {
 
   toggleItem(item: Log) {
     this.store.toggleItemEffect(item.id)
+  }
+
+  refreshEffect() {
+    this.store.refreshEffect()
   }
 
   setLimit(number: number) {
