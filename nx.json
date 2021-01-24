@@ -38,6 +38,9 @@
     "api-core-feature": {
       "tags": ["scope:api", "type:feature"]
     },
+    "api-core-util": {
+      "tags": ["scope:api", "type:util"]
+    },
     "api-e2e": {
       "tags": []
     },

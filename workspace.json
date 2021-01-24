@@ -136,6 +136,27 @@
         }
       }
     },
+    "api-core-util": {
+      "root": "libs/api/core/util",
+      "sourceRoot": "libs/api/core/util/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/api/core/util/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/api/core/util"],
+          "options": {
+            "jestConfig": "libs/api/core/util/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "api-e2e": {
       "root": "apps/api-e2e",
       "sourceRoot": "apps/api-e2e/src",

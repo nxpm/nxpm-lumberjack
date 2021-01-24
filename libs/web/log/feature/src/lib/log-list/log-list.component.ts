@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
-import { Log } from '@nxpm-lumberjack/web/core/data-access'
+import { Log, LogLevel } from '@nxpm-lumberjack/web/core/data-access'
+import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
 import { LogListStore } from './log-list.store'
 
 @Component({
@@ -23,51 +24,129 @@ import { LogListStore } from './log-list.store'
         </div>
         <ng-container *ngFor="let item of vm.items">
           <div class="flex items-center py-1">
-            <div class="p-2 whitespace-nowrap flex space-x-2">
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                {{ item.level }}
-              </span>
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                System
-              </span>
+            <div class="pl-3">
+              <ng-container *ngIf="item.user">
+                <img
+                  class="h-5 w-5 border border-white dark:border-gray-400 rounded-full"
+                  [attr.src]="item.user.avatarUrl"
+                  alt=""
+                />
+              </ng-container>
+              <ng-container *ngIf="item.system">
+                <img class="h-5 w-5 rounded-full" src="/assets/images/logo.png" alt="" />
+              </ng-container>
             </div>
-            <div class="p-2 whitespace-nowrap flex-grow">
+            <div class="px-3 py-1 whitespace-nowrap flex-grow">
               <div class="flex items-center justify-between">
-                <div class="text-sm font-medium text-gray-900 dark:text-gray-200 flex-grow">
+                <button
+                  (click)="toggleItem(item)"
+                  class="text-xs flex font-medium text-gray-900 dark:text-gray-200 flex-grow font-mono cursor-pointer"
+                >
                   {{ item.message }}
-                </div>
+                </button>
                 <div class="flex space-x-2 items-center">
-                  <button (click)="toggleItem(item)" class="text-xs text-right text-gray-700 dark:text-gray-600">
-                    Payload
-                  </button>
-                  <div class="text-sm text-right text-gray-900 dark:text-gray-400">
+                  <div class="whitespace-nowrap">
+                    <span
+                      [ngClass]="{
+                        'bg-pink-100 text-pink-800': item.level === level.Critical,
+                        'bg-yellow-100 text-yellow-800': item.level === level.Warning,
+                        'bg-green-100 text-green-800': item.level === level.Info,
+                        'bg-gray-100 text-gray-800': item.level === level.Debug,
+                        'bg-red-100 text-red-800': item.level === level.Error,
+                        'bg-blue-100 text-blue-800': item.level === level.Trace
+                      }"
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                    >
+                      {{ item.level }}
+                    </span>
+                  </div>
+                  <div class="text-xs text-right text-gray-900 dark:text-gray-400">
                     {{ item.createdAt | date: 'medium' }}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div *ngIf="vm.open[item.id]">
-            <pre class=" p-4 rounded-md">{{ item.payload | json }}</pre>
+          <div *ngIf="vm.open[item.id]" class="p-2">
+            <pre class="text-xs dark:bg-gray-900 p-4 rounded-md">{{ item.payload | json }}</pre>
+            <pre class="text-xs dark:bg-gray-900 p-4 rounded-md">{{ item | json }}</pre>
           </div>
         </ng-container>
+        <div class="flex space-x-2 p-2 justify-center">
+          <ng-container *ngFor="let lvl of levels">
+            <button
+              [ngClass]="{
+                'bg-pink-100 text-pink-800': lvl === level.Critical,
+                'bg-yellow-100 text-yellow-800': lvl === level.Warning,
+                'bg-green-100 text-green-800': lvl === level.Info,
+                'bg-gray-100 text-gray-800': lvl === level.Debug,
+                'bg-red-100 text-red-800': lvl === level.Error,
+                'bg-blue-100 text-blue-800': lvl === level.Trace
+              }"
+              class="px-2 py-0 rounded "
+              (click)="testLevel(lvl)"
+            >
+              {{ lvl }}
+            </button>
+          </ng-container>
+        </div>
       </div>
     </ng-container>
   `,
   providers: [LogListStore],
 })
 export class LogListComponent {
+  readonly level = LogLevel
+  readonly levels = Object.keys(LogLevel)
   readonly vm$ = this.store.vm$
-  constructor(private readonly store: LogListStore) {}
+  constructor(private readonly store: LogListStore, private readonly log: WebUtilLogService) {}
 
   toggleItem(item: Log) {
     this.store.toggleItemEffect(item.id)
   }
-  //
-  // nextPage() {
-  //   this.store.nextPage()
-  // }
+
   setLimit(number: number) {
     this.store.setLimit(number)
+  }
+
+  testLevel(level) {
+    switch (level) {
+      case LogLevel.Critical:
+        return this.testCritical()
+      case LogLevel.Debug:
+        return this.testDebug()
+      case LogLevel.Error:
+        return this.testError()
+      case LogLevel.Info:
+        return this.testInfo()
+      case LogLevel.Trace:
+        return this.testTrace()
+      case LogLevel.Warning:
+        return this.testWarning()
+    }
+  }
+
+  testCritical() {
+    this.log.critical('This is an Critical Log', { some: 'extra', data: 'object' })
+  }
+
+  testDebug() {
+    this.log.debug('This is an Debug Log', { some: 'extra', data: 'object' })
+  }
+
+  testError() {
+    this.log.error('This is an Error Log', { some: 'extra', data: 'object' })
+  }
+
+  testInfo() {
+    this.log.info('This is an Info Log', { some: 'extra', data: 'object' })
+  }
+
+  testWarning() {
+    this.log.warning('This is an Warning Log', { some: 'extra', data: 'object' })
+  }
+
+  testTrace() {
+    this.log.trace('This is an Trace Log', { some: 'extra', data: 'object' })
   }
 }

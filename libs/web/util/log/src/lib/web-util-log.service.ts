@@ -11,6 +11,16 @@ export class WebUtilLogService {
 
   constructor(private readonly lumberjack: LumberjackService<WebUtilLogPayload>) {}
 
+  critical(message: string, payload?: WebUtilLogPayload) {
+    return this.lumberjack.log({
+      scope: this.scope,
+      level: LumberjackLevel.Critical,
+      createdAt: Date.now(),
+      message,
+      payload,
+    })
+  }
+
   debug(message: string, payload?: WebUtilLogPayload) {
     return this.lumberjack.log({
       scope: this.scope,
@@ -45,6 +55,16 @@ export class WebUtilLogService {
     return this.lumberjack.log({
       scope: this.scope,
       level: LumberjackLevel.Warning,
+      createdAt: Date.now(),
+      message,
+      payload,
+    })
+  }
+
+  trace(message: string, payload?: WebUtilLogPayload) {
+    return this.lumberjack.log({
+      scope: this.scope,
+      level: LumberjackLevel.Trace,
       createdAt: Date.now(),
       message,
       payload,

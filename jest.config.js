@@ -31,5 +31,6 @@ module.exports = {
     '<rootDir>/libs/api/log/feature',
     '<rootDir>/libs/web/log/feature',
     '<rootDir>/libs/web/log/ui',
+    '<rootDir>/libs/api/core/util',
   ],
 }

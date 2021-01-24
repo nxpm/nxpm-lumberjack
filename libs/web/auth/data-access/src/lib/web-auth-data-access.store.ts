@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { ApolloAngularSDK, LoginInput, RegisterInput, User } from '@nxpm-lumberjack/web/core/data-access'
 import { ComponentStore, tapResponse } from '@ngrx/component-store'
+import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
 import { Observable } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, tap } from 'rxjs/operators'
 
 interface WebAuthDataAccessState {
   errors?: any
@@ -24,7 +25,11 @@ export class WebAuthStore extends ComponentStore<WebAuthDataAccessState> {
     errors,
   }))
 
-  constructor(public readonly sdk: ApolloAngularSDK, private readonly router: Router) {
+  constructor(
+    public readonly sdk: ApolloAngularSDK,
+    private readonly router: Router,
+    private readonly log: WebUtilLogService,
+  ) {
     super()
     this.initializeEffect()
   }
@@ -49,6 +54,7 @@ export class WebAuthStore extends ComponentStore<WebAuthDataAccessState> {
           tapResponse(
             (res) => {
               this.setState({ user: res.data.login.user, errors: res.errors })
+              this.log.info(`User logged in`, res.data.login.user)
               this.router.navigate(['/'])
             },
             (errors) => this.setState({ errors }),
@@ -60,6 +66,7 @@ export class WebAuthStore extends ComponentStore<WebAuthDataAccessState> {
 
   readonly logoutEffect = this.effect(($) =>
     $.pipe(
+      tap(() => this.log.info(`User logging out`)),
       switchMap(() =>
         this.sdk.logout().pipe(
           tapResponse(
@@ -84,6 +91,7 @@ export class WebAuthStore extends ComponentStore<WebAuthDataAccessState> {
                 user: res.data.register.user,
                 errors: res.errors,
               })
+              this.log.info(`User registered`, res.data.register.user)
               this.router.navigate(['/'])
             },
             (errors) => this.setState({ errors }),

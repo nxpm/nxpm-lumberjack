@@ -1,26 +1,16 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Query, Resolver } from '@nestjs/graphql'
-import { GqlAuthAdminGuard } from '@nxpm-lumberjack/api/auth/data-access'
-import { CorePaging, CorePagingInput } from '@nxpm-lumberjack/api/core/data-access'
-import { ApiLogDataAccessService, Log } from '@nxpm-lumberjack/api/log/data-access'
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql'
+import { CtxUser, GqlAuthGuard, User } from '@nxpm-lumberjack/api/auth/data-access'
+import { getClientIp } from '@nxpm-lumberjack/api/core/util'
+import { ApiLogDataAccessService, CreateLogInput, Log } from '@nxpm-lumberjack/api/log/data-access'
 
 @Resolver()
-@UseGuards(GqlAuthAdminGuard)
+@UseGuards(GqlAuthGuard)
 export class ApiLogFeatureResolver {
   constructor(private readonly service: ApiLogDataAccessService) {}
 
-  @Query(() => [Log], { nullable: true })
-  adminLogs(@Args('input') input: CorePagingInput) {
-    return this.service.adminLogs(input)
-  }
-
-  @Query(() => CorePaging, { nullable: true })
-  adminCountLogs(@Args('input') input: CorePagingInput) {
-    return this.service.adminCountLogs(input)
-  }
-
-  @Query(() => Log, { nullable: true })
-  adminLog(@Args('logId') logId: string) {
-    return this.service.adminLog(logId)
+  @Mutation(() => Log, { nullable: true })
+  createLog(@CtxUser() user: User, @Context() context, @Args('input') input: CreateLogInput) {
+    return this.service.createLog(user.id, input, getClientIp(context.req))
   }
 }

@@ -4,15 +4,18 @@ fragment LogDetail on Log {
   updatedAt
   level
   system
+  scope
   message
   payload
   ip
-  user
 }
 
 query AdminLogs($input: CorePagingInput!) {
   items: adminLogs(input: $input) {
     ...LogDetail
+    user {
+      ...UserDetails
+    }
   }
   count: adminCountLogs(input: $input) {
     total
@@ -23,6 +26,12 @@ query AdminLogs($input: CorePagingInput!) {
 
 query AdminLog($logId: String!) {
   adminLog(logId: $logId) {
+    ...LogDetail
+  }
+}
+
+mutation CreateLog($input: CreateLogInput!) {
+  createLog(input: $input) {
     ...LogDetail
   }
 }

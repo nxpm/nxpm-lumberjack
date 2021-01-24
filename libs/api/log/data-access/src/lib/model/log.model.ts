@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
+import { User } from '@nxpm-lumberjack/api/auth/data-access'
 import GraphQLJSON from 'graphql-type-json'
 import { LogLevel } from './log-level.enum'
 
@@ -22,12 +23,15 @@ export class Log {
   @Field({ nullable: true })
   message?: string
 
+  @Field({ nullable: true })
+  scope?: string
+
   @Field(() => GraphQLJSON, { nullable: true })
   payload?: any
 
   @Field({ nullable: true })
   ip?: string
 
-  @Field({ nullable: true })
-  user?: string
+  @Field(() => User, { nullable: true })
+  user?: User
 }

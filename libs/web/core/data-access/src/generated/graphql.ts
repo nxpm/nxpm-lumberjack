@@ -31,6 +31,14 @@ export type CorePagingInput = {
   skip?: Maybe<Scalars['Int']>
 }
 
+export type CreateLogInput = {
+  createdAt?: Maybe<Scalars['DateTime']>
+  level: LogLevel
+  message: Scalars['String']
+  payload?: Maybe<Scalars['JSON']>
+  scope?: Maybe<Scalars['String']>
+}
+
 export type IntercomMessage = {
   __typename?: 'IntercomMessage'
   payload?: Maybe<Scalars['JSON']>
@@ -46,9 +54,10 @@ export type Log = {
   level?: Maybe<LogLevel>
   message?: Maybe<Scalars['String']>
   payload?: Maybe<Scalars['JSON']>
+  scope?: Maybe<Scalars['String']>
   system?: Maybe<Scalars['Boolean']>
   updatedAt?: Maybe<Scalars['DateTime']>
-  user?: Maybe<Scalars['String']>
+  user?: Maybe<User>
 }
 
 export type LoginInput = {
@@ -57,18 +66,25 @@ export type LoginInput = {
 }
 
 export enum LogLevel {
+  Critical = 'Critical',
   Debug = 'Debug',
   Error = 'Error',
   Info = 'Info',
+  Trace = 'Trace',
   Warning = 'Warning',
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
+  createLog?: Maybe<Log>
   intercomPub?: Maybe<IntercomMessage>
   login?: Maybe<UserToken>
   logout?: Maybe<Scalars['Boolean']>
   register?: Maybe<UserToken>
+}
+
+export type MutationCreateLogArgs = {
+  input: CreateLogInput
 }
 
 export type MutationIntercomPubArgs = {
@@ -215,7 +231,7 @@ export type IntercomSubSubscription = { __typename?: 'Subscription' } & {
 
 export type LogDetailFragment = { __typename?: 'Log' } & Pick<
   Log,
-  'id' | 'createdAt' | 'updatedAt' | 'level' | 'system' | 'message' | 'payload' | 'ip' | 'user'
+  'id' | 'createdAt' | 'updatedAt' | 'level' | 'system' | 'scope' | 'message' | 'payload' | 'ip'
 >
 
 export type AdminLogsQueryVariables = Exact<{
@@ -223,7 +239,9 @@ export type AdminLogsQueryVariables = Exact<{
 }>
 
 export type AdminLogsQuery = { __typename?: 'Query' } & {
-  items?: Maybe<Array<{ __typename?: 'Log' } & LogDetailFragment>>
+  items?: Maybe<
+    Array<{ __typename?: 'Log' } & { user?: Maybe<{ __typename?: 'User' } & UserDetailsFragment> } & LogDetailFragment>
+  >
   count?: Maybe<{ __typename?: 'CorePaging' } & Pick<CorePaging, 'total' | 'limit' | 'skip'>>
 }
 
@@ -232,6 +250,14 @@ export type AdminLogQueryVariables = Exact<{
 }>
 
 export type AdminLogQuery = { __typename?: 'Query' } & { adminLog?: Maybe<{ __typename?: 'Log' } & LogDetailFragment> }
+
+export type CreateLogMutationVariables = Exact<{
+  input: CreateLogInput
+}>
+
+export type CreateLogMutation = { __typename?: 'Mutation' } & {
+  createLog?: Maybe<{ __typename?: 'Log' } & LogDetailFragment>
+}
 
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
@@ -267,10 +293,10 @@ export const LogDetailFragmentDoc = gql`
     updatedAt
     level
     system
+    scope
     message
     payload
     ip
-    user
   }
 `
 export const MeDocument = gql`
@@ -404,6 +430,9 @@ export const AdminLogsDocument = gql`
   query AdminLogs($input: CorePagingInput!) {
     items: adminLogs(input: $input) {
       ...LogDetail
+      user {
+        ...UserDetails
+      }
     }
     count: adminCountLogs(input: $input) {
       total
@@ -412,6 +441,7 @@ export const AdminLogsDocument = gql`
     }
   }
   ${LogDetailFragmentDoc}
+  ${UserDetailsFragmentDoc}
 `
 
 @Injectable({
@@ -443,6 +473,25 @@ export class AdminLogGQL extends Apollo.Query<AdminLogQuery, AdminLogQueryVariab
     super(apollo)
   }
 }
+export const CreateLogDocument = gql`
+  mutation CreateLog($input: CreateLogInput!) {
+    createLog(input: $input) {
+      ...LogDetail
+    }
+  }
+  ${LogDetailFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CreateLogGQL extends Apollo.Mutation<CreateLogMutation, CreateLogMutationVariables> {
+  document = CreateLogDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -466,6 +515,7 @@ export class ApolloAngularSDK {
     private intercomSubGql: IntercomSubGQL,
     private adminLogsGql: AdminLogsGQL,
     private adminLogGql: AdminLogGQL,
+    private createLogGql: CreateLogGQL,
   ) {}
 
   me(variables?: MeQueryVariables, options?: QueryOptionsAlone<MeQueryVariables>) {
@@ -527,5 +577,12 @@ export class ApolloAngularSDK {
 
   adminLogWatch(variables: AdminLogQueryVariables, options?: WatchQueryOptionsAlone<AdminLogQueryVariables>) {
     return this.adminLogGql.watch(variables, options)
+  }
+
+  createLog(
+    variables: CreateLogMutationVariables,
+    options?: MutationOptionsAlone<CreateLogMutation, CreateLogMutationVariables>,
+  ) {
+    return this.createLogGql.mutate(variables, options)
   }
 }

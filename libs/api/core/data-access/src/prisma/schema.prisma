@@ -38,6 +38,7 @@ model Log {
   system    Boolean  @default(false)
   level     LogLevel
   message   String
+  scope     String?
   payload   Json?
   ip        String?
   user      User?    @relation(name: "User_hasMany_Logs", fields: [userId], references: [id])
@@ -45,8 +46,10 @@ model Log {
 }
 
 enum LogLevel {
+  Critical
   Debug
   Error
   Info
+  Trace
   Warning
 }

@@ -20,6 +20,7 @@
       "@nxpm-lumberjack/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
       "@nxpm-lumberjack/api/core/data-access": ["libs/api/core/data-access/src/index.ts"],
       "@nxpm-lumberjack/api/core/feature": ["libs/api/core/feature/src/index.ts"],
+      "@nxpm-lumberjack/api/core/util": ["libs/api/core/util/src/index.ts"],
       "@nxpm-lumberjack/api/log/data-access": ["libs/api/log/data-access/src/index.ts"],
       "@nxpm-lumberjack/api/log/feature": ["libs/api/log/feature/src/index.ts"],
       "@nxpm-lumberjack/web/about/feature": ["libs/web/about/feature/src/index.ts"],

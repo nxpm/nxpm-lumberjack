@@ -13,6 +13,14 @@ input CorePagingInput {
   skip: Int = 0
 }
 
+input CreateLogInput {
+  createdAt: DateTime
+  level: LogLevel!
+  message: String!
+  payload: JSON
+  scope: String
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -36,9 +44,10 @@ type Log {
   level: LogLevel
   message: String
   payload: JSON
+  scope: String
   system: Boolean
   updatedAt: DateTime
-  user: String
+  user: User
 }
 
 input LoginInput {
@@ -47,13 +56,16 @@ input LoginInput {
 }
 
 enum LogLevel {
+  Critical
   Debug
   Error
   Info
+  Trace
   Warning
 }
 
 type Mutation {
+  createLog(input: CreateLogInput!): Log
   intercomPub(payload: JSON, scope: String, type: String!): IntercomMessage
   login(input: LoginInput!): UserToken
   logout: Boolean
