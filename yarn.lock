@@ -2460,7 +2460,7 @@
     enhanced-resolve "5.6.0"
     webpack-sources "2.2.0"
 
-"@ngworker/lumberjack@^2.0.0-rc.0":
+"@ngworker/lumberjack@^2.0.0 || >=2.0.0-rc.0":
   version "2.0.0-rc.0"
   resolved "https://registry.yarnpkg.com/@ngworker/lumberjack/-/lumberjack-2.0.0-rc.0.tgz#ea88d86fe16e8d43f1514f54376513d62579b400"
   integrity sha512-NaQqC9HnXzy9kyyPjjnXCNXpzF0PnRCIm1/vJGTnr7oOvOR/s1ilLflNeEtDoLtDeC3Rmtq1Hv7OEt+yVIhM9A==
