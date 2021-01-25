@@ -63,6 +63,7 @@
     "@nestjs/jwt": "^7.1.0",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/serve-static": "^2.1.4",
     "@ngneat/svg-icon": "2.2.2",
     "@ngrx/component-store": "10.1.2",
     "@ngworker/lumberjack": "^2.0.0-rc.0",
