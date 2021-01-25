@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
 
 import { LumberjackLogDriver, LumberjackLogDriverConfig, LumberjackLogDriverLog } from '@ngworker/lumberjack'
-import { LumberjackConsole, lumberjackConsoleToken } from '@ngworker/lumberjack/console-driver'
 import { ApolloAngularSDK, LogLevel } from '@nxpm-lumberjack/web/core/data-access'
 
 import { webUtilLogToken } from '../web-util-log.token'
@@ -11,7 +9,6 @@ import { webUtilLogToken } from '../web-util-log.token'
 export class ApolloSdkDriver implements LumberjackLogDriver {
   constructor(
     @Inject(webUtilLogToken) public config: LumberjackLogDriverConfig,
-    @Inject(lumberjackConsoleToken) private console: LumberjackConsole,
     private readonly sdk: ApolloAngularSDK,
   ) {}
 
