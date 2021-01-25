@@ -5,14 +5,7 @@ import { LumberjackConfigLevels } from '@ngworker/lumberjack/lib/logs/lumberjack
 import { ApolloSdkDriverModule } from './apollo-sdk-driver/apollo-sdk-driver.module'
 import { WebUtilLogService } from './web-util-log.service'
 
-const levels: LumberjackConfigLevels = [
-  LumberjackLevel.Critical,
-  LumberjackLevel.Debug,
-  LumberjackLevel.Error,
-  LumberjackLevel.Info,
-  LumberjackLevel.Warning,
-  LumberjackLevel.Trace,
-]
+const levels: LumberjackConfigLevels = [LumberjackLevel.Verbose]
 
 @NgModule({
   imports: [
