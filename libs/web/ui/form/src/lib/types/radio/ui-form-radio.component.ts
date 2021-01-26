@@ -9,7 +9,7 @@ import { FieldType } from '@ngx-formly/core'
         <div class="flex items-center">
           <input
             type="radio"
-            class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300  dark:bg-gray-800 dark:border-gray-600"
+            class="focus:ring-indigo-500 h-4 w-4 text-indigo-700 border-gray-300  dark:bg-gray-800 dark:border-gray-600"
             [id]="id + '_' + i"
             [name]="field.name || id"
             [class.is-invalid]="showError"

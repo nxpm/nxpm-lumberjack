@@ -1,17 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import {
-  ApiCoreDataAccessService,
-  getGravatarUrl,
-  hashPassword,
-  validatePassword,
-} from '@nxpm-lumberjack/api/core/data-access'
+import { ApiCoreDataAccessService, validatePassword } from '@nxpm-lumberjack/api/core/data-access'
 import { ApiCoreFeatureService } from '@nxpm-lumberjack/api/core/feature'
 import { Response } from 'express'
 import { LoginInput } from './dto/login.input'
 import { RegisterInput } from './dto/register.input'
-import { UserToken } from './models/user-token'
-import { Role } from './models/role.enum'
+import { UserToken } from '../../../../user/data-access/src/lib/models/user-token'
 
 @Injectable()
 export class ApiAuthDataAccessService {
@@ -38,7 +32,11 @@ export class ApiAuthDataAccessService {
       throw new NotFoundException(`No user found for email: ${email}`)
     }
 
-    const passwordValid = await validatePassword(password, user.password)
+    if (!user.password) {
+      throw new NotFoundException(`Please reset password for user: ${email}`)
+    }
+
+    const passwordValid = await validatePassword(password, user?.password)
 
     if (!passwordValid) {
       throw new BadRequestException('Invalid password')

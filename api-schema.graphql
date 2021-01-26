@@ -2,6 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AdminCreateUserInput {
+  email: String!
+  firstName: String
+  lastName: String
+  role: Role!
+  username: String
+}
+
+input AdminUpdateUserInput {
+  avatarUrl: String
+  bio: String
+  email: String
+  firstName: String
+  lastName: String
+  location: String
+  phone: String
+  role: Role
+  username: String
+}
+
 type CorePaging {
   limit: Int
   skip: Int
@@ -65,6 +85,10 @@ enum LogLevel {
 }
 
 type Mutation {
+  adminCreateUser(input: AdminCreateUserInput!): User
+  adminDeleteUser(userId: String!): User
+  adminSetUserPassword(password: String!, userId: String!): User
+  adminUpdateUser(input: AdminUpdateUserInput!, userId: String!): User
   createLog(input: CreateLogInput!): Log
   intercomPub(payload: JSON, scope: String, type: String!): IntercomMessage
   login(input: LoginInput!): UserToken
@@ -74,8 +98,11 @@ type Mutation {
 
 type Query {
   adminCountLogs(input: CorePagingInput!): CorePaging
+  adminCountUsers(paging: CorePagingInput): CorePaging
   adminLog(logId: String!): Log
   adminLogs(input: CorePagingInput!): [Log!]
+  adminUser(userId: String!): User
+  adminUsers(paging: CorePagingInput): [User!]
   me: User
   uptime: Float
 }
@@ -90,7 +117,6 @@ input RegisterInput {
   username: String
 }
 
-"""User role"""
 enum Role {
   Admin
   User
@@ -109,6 +135,7 @@ type User {
   id: String
   lastName: String
   location: String
+  name: String
   phone: String
   role: Role
   updatedAt: DateTime

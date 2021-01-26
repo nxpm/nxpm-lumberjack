@@ -1,8 +1,9 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql'
-import { CtxUser, GqlAuthGuard, User } from '@nxpm-lumberjack/api/auth/data-access'
+import { CtxUser, GqlAuthGuard } from '@nxpm-lumberjack/api/auth/data-access'
 import { getClientIp } from '@nxpm-lumberjack/api/core/util'
 import { ApiLogDataAccessService, CreateLogInput, Log } from '@nxpm-lumberjack/api/log/data-access'
+import { User } from '@nxpm-lumberjack/api/user/data-access'
 
 @Resolver()
 @UseGuards(GqlAuthGuard)

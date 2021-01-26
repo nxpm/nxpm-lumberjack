@@ -9,14 +9,8 @@
         "project": ["libs/web/ui/page-header/tsconfig.*?.json"]
       },
       "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          { "type": "attribute", "prefix": "page-header", "style": "camelCase" }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          { "type": "element", "prefix": "page-header", "style": "kebab-case" }
-        ]
+        "@angular-eslint/directive-selector": ["error", { "type": "attribute", "prefix": "ui", "style": "camelCase" }],
+        "@angular-eslint/component-selector": ["error", { "type": "element", "prefix": "ui", "style": "kebab-case" }]
       }
     },
     {
