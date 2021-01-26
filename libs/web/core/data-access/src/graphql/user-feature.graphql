@@ -25,6 +25,12 @@ mutation AdminUpdateUser($userId: String!, $input: AdminUpdateUserInput!) {
   }
 }
 
+mutation AdminSetUserPassword($userId: String!, $password: String!) {
+  adminSetUserPassword(userId: $userId, password: $password) {
+    ...UserDetails
+  }
+}
+
 mutation AdminDeleteUser($userId: String!) {
   adminDeleteUser(userId: $userId) {
     ...UserDetails

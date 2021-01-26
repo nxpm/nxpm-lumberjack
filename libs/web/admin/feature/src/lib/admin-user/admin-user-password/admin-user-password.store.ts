@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { ComponentStore, tapResponse } from '@ngrx/component-store'
 import { ApolloAngularSDK, User } from '@nxpm-lumberjack/web/core/data-access'
-import { pluck, switchMap, tap } from 'rxjs/operators'
+import { pluck, switchMap, tap, withLatestFrom } from 'rxjs/operators'
 
-export interface UserDetailState {
+export interface UserPasswordState {
   errors?: any
   loading?: boolean
   user?: User
 }
 
 @Injectable()
-export class AdminUserDetailStore extends ComponentStore<UserDetailState> {
+export class AdminUserPasswordStore extends ComponentStore<UserPasswordState> {
   constructor(private readonly sdk: ApolloAngularSDK, route: ActivatedRoute) {
     super({ loading: false })
     this.loadUserEffect(route.params.pipe(pluck('userId')))
@@ -33,6 +33,27 @@ export class AdminUserDetailStore extends ComponentStore<UserDetailState> {
         this.sdk.adminUser({ userId }).pipe(
           tapResponse(
             (res) => this.patchState({ user: res.data.adminUser, errors: res.errors, loading: false }),
+            (errors: any) =>
+              this.patchState({
+                loading: false,
+                errors: errors.graphQLErrors ? errors.graphQLErrors : errors,
+              }),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  readonly updateSetUserPasswordEffect = this.effect<string>((input$) =>
+    input$.pipe(
+      tap(() => this.patchState({ loading: true })),
+      withLatestFrom(this.user$),
+      switchMap(([password, user]) =>
+        this.sdk.adminSetUserPassword({ password, userId: user.id }).pipe(
+          tapResponse(
+            (res) => {
+              this.patchState({ user: res.data.adminSetUserPassword, errors: res.errors, loading: false })
+            },
             (errors: any) =>
               this.patchState({
                 loading: false,

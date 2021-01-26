@@ -98,6 +98,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   adminCreateUser?: Maybe<User>
   adminDeleteUser?: Maybe<User>
+  adminSetUserPassword?: Maybe<User>
   adminUpdateUser?: Maybe<User>
   createLog?: Maybe<Log>
   intercomPub?: Maybe<IntercomMessage>
@@ -111,6 +112,11 @@ export type MutationAdminCreateUserArgs = {
 }
 
 export type MutationAdminDeleteUserArgs = {
+  userId: Scalars['String']
+}
+
+export type MutationAdminSetUserPasswordArgs = {
+  password: Scalars['String']
   userId: Scalars['String']
 }
 
@@ -344,6 +350,15 @@ export type AdminUpdateUserMutationVariables = Exact<{
 
 export type AdminUpdateUserMutation = { __typename?: 'Mutation' } & {
   adminUpdateUser?: Maybe<{ __typename?: 'User' } & UserDetailsFragment>
+}
+
+export type AdminSetUserPasswordMutationVariables = Exact<{
+  userId: Scalars['String']
+  password: Scalars['String']
+}>
+
+export type AdminSetUserPasswordMutation = { __typename?: 'Mutation' } & {
+  adminSetUserPassword?: Maybe<{ __typename?: 'User' } & UserDetailsFragment>
 }
 
 export type AdminDeleteUserMutationVariables = Exact<{
@@ -675,6 +690,28 @@ export class AdminUpdateUserGQL extends Apollo.Mutation<AdminUpdateUserMutation,
     super(apollo)
   }
 }
+export const AdminSetUserPasswordDocument = gql`
+  mutation AdminSetUserPassword($userId: String!, $password: String!) {
+    adminSetUserPassword(userId: $userId, password: $password) {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminSetUserPasswordGQL extends Apollo.Mutation<
+  AdminSetUserPasswordMutation,
+  AdminSetUserPasswordMutationVariables
+> {
+  document = AdminSetUserPasswordDocument
+
+  constructor(apollo: Apollo.Apollo) {
+    super(apollo)
+  }
+}
 export const AdminDeleteUserDocument = gql`
   mutation AdminDeleteUser($userId: String!) {
     adminDeleteUser(userId: $userId) {
@@ -722,6 +759,7 @@ export class ApolloAngularSDK {
     private adminUserGql: AdminUserGQL,
     private adminCreateUserGql: AdminCreateUserGQL,
     private adminUpdateUserGql: AdminUpdateUserGQL,
+    private adminSetUserPasswordGql: AdminSetUserPasswordGQL,
     private adminDeleteUserGql: AdminDeleteUserGQL,
   ) {}
 
@@ -821,6 +859,13 @@ export class ApolloAngularSDK {
     options?: MutationOptionsAlone<AdminUpdateUserMutation, AdminUpdateUserMutationVariables>,
   ) {
     return this.adminUpdateUserGql.mutate(variables, options)
+  }
+
+  adminSetUserPassword(
+    variables: AdminSetUserPasswordMutationVariables,
+    options?: MutationOptionsAlone<AdminSetUserPasswordMutation, AdminSetUserPasswordMutationVariables>,
+  ) {
+    return this.adminSetUserPasswordGql.mutate(variables, options)
   }
 
   adminDeleteUser(

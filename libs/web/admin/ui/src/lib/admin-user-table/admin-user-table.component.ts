@@ -49,7 +49,8 @@ import { User } from '@nxpm-lumberjack/web/core/data-access'
                 {{ user.role }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a [routerLink]="user.id" class="text-pink-700 hover:text-pink-900">Edit</a>
+                <a [routerLink]="[user.id, 'password']" class="text-indigo-700 hover:text-indigo-900 mr-2">Password</a>
+                <a [routerLink]="[user.id, 'edit']" class="text-indigo-700 hover:text-indigo-900">Edit</a>
               </td>
             </tr>
           </ng-container>

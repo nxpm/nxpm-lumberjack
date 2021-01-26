@@ -126,7 +126,7 @@ export class UiFormSelectComponent extends FieldType {
   }
 
   get classNames(): string {
-    return 'mt-1 block w-full pl-3 py-2 text-base dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 border-gray-300 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm rounded-md'
+    return 'mt-1 block w-full pl-3 py-2 text-base dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md'
   }
 
   constructor(private ngZone: NgZone) {

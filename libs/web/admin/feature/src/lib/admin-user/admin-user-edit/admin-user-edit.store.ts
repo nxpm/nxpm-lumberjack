@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { AdminUpdateUserInput, ApolloAngularSDK, User } from '@nxpm-lumberjack/web/core/data-access'
 import { ComponentStore, tapResponse } from '@ngrx/component-store'
-import { ApolloAngularSDK, User } from '@nxpm-lumberjack/web/core/data-access'
-import { pluck, switchMap, tap } from 'rxjs/operators'
+import { pluck, switchMap, tap, withLatestFrom } from 'rxjs/operators'
 
-export interface UserDetailState {
+export interface UserEditState {
   errors?: any
   loading?: boolean
   user?: User
 }
 
 @Injectable()
-export class AdminUserDetailStore extends ComponentStore<UserDetailState> {
+export class AdminUserEditStore extends ComponentStore<UserEditState> {
   constructor(private readonly sdk: ApolloAngularSDK, route: ActivatedRoute) {
     super({ loading: false })
     this.loadUserEffect(route.params.pipe(pluck('userId')))
@@ -33,6 +33,27 @@ export class AdminUserDetailStore extends ComponentStore<UserDetailState> {
         this.sdk.adminUser({ userId }).pipe(
           tapResponse(
             (res) => this.patchState({ user: res.data.adminUser, errors: res.errors, loading: false }),
+            (errors: any) =>
+              this.patchState({
+                loading: false,
+                errors: errors.graphQLErrors ? errors.graphQLErrors : errors,
+              }),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  readonly updateUserEffect = this.effect<AdminUpdateUserInput>((input$) =>
+    input$.pipe(
+      tap(() => this.patchState({ loading: true })),
+      withLatestFrom(this.user$),
+      switchMap(([input, user]) =>
+        this.sdk.adminUpdateUser({ input, userId: user.id }).pipe(
+          tapResponse(
+            (res) => {
+              this.patchState({ user: res.data.adminUpdateUser, errors: res.errors, loading: false })
+            },
             (errors: any) =>
               this.patchState({
                 loading: false,

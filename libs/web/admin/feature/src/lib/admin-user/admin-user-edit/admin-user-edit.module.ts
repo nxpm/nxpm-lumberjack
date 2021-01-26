@@ -4,15 +4,15 @@ import { RouterModule } from '@angular/router'
 import { AdminUserFormModule } from '@nxpm-lumberjack/web/admin/ui'
 import { WebUiPageHeaderModule } from '@nxpm-lumberjack/web/ui/page-header'
 
-import { AdminUserCreateComponent } from './admin-user-create.component'
+import { AdminUserEditComponent } from './admin-user-edit.component'
 
 @NgModule({
-  declarations: [AdminUserCreateComponent],
+  declarations: [AdminUserEditComponent],
   imports: [
     AdminUserFormModule,
     CommonModule,
-    RouterModule.forChild([{ path: '', component: AdminUserCreateComponent }]),
+    RouterModule.forChild([{ path: '', component: AdminUserEditComponent }]),
     WebUiPageHeaderModule,
   ],
 })
-export class AdminUserCreateModule {}
+export class AdminUserEditModule {}

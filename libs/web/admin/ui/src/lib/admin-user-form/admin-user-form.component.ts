@@ -11,7 +11,7 @@ import { User } from '@nxpm-lumberjack/web/core/data-access'
           <button
             [disabled]="form.touched && !form?.valid"
             type="submit"
-            class="flex mx-auto bg-pink-700 disabled:cursor-not-allowed disabled:opacity-50 justify-center px-12 py-2 border border-transparent shadow-sm text-lg font-medium rounded-md text-gray-300  hover:bg-pink-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
+            class="flex mx-auto bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 justify-center px-12 py-2 border border-transparent shadow-sm text-lg font-medium rounded-md text-gray-300  hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Save
           </button>

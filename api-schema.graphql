@@ -87,6 +87,7 @@ enum LogLevel {
 type Mutation {
   adminCreateUser(input: AdminCreateUserInput!): User
   adminDeleteUser(userId: String!): User
+  adminSetUserPassword(password: String!, userId: String!): User
   adminUpdateUser(input: AdminUpdateUserInput!, userId: String!): User
   createLog(input: CreateLogInput!): Log
   intercomPub(payload: JSON, scope: String, type: String!): IntercomMessage

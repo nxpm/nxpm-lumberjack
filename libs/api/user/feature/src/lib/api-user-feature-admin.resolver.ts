@@ -46,6 +46,11 @@ export class ApiUserFeatureAdminResolver {
   }
 
   @Mutation(() => User, { nullable: true })
+  adminSetUserPassword(@CtxUser() admin: User, @Args('userId') userId: string, @Args('password') password: string) {
+    return this.data.adminSetUserPassword(admin.id, userId, password)
+  }
+
+  @Mutation(() => User, { nullable: true })
   adminDeleteUser(@CtxUser() admin: User, @Args('userId') userId: string) {
     return this.data.adminDeleteUser(admin.id, userId)
   }

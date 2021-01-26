@@ -84,6 +84,14 @@ export class ApiUserDataAccessService {
     })
   }
 
+  async adminSetUserPassword(adminId: string, userId: string, password: string) {
+    await this.data.ensureAdminUser(adminId)
+    return this.data.user.update({
+      where: { id: userId },
+      data: { password: hashPassword(password) },
+    })
+  }
+
   async adminDeleteUser(adminId: string, userId: string) {
     await this.data.ensureAdminUser(adminId)
     return this.data.user.delete({ where: { id: userId } })
