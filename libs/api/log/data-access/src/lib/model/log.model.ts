@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { User } from '@nxpm-lumberjack/api/auth/data-access'
+import { User } from '@nxpm-lumberjack/api/user/data-access'
 import GraphQLJSON from 'graphql-type-json'
 import { LogLevel } from './log-level.enum'
 

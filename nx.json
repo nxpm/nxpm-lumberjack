@@ -50,6 +50,12 @@
     "api-log-feature": {
       "tags": ["scope:api", "type:feature"]
     },
+    "api-user-data-access": {
+      "tags": ["scope:api", "type:data-access"]
+    },
+    "api-user-feature": {
+      "tags": ["scope:api", "type:feature"]
+    },
     "web": {
       "tags": []
     },

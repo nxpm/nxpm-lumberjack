@@ -11,5 +11,6 @@ export class WebAdminFeatureComponent {
   links = [
     { label: 'Dashboard', path: 'dashboard', icon: '' },
     { label: 'Logs', path: 'logs', icon: '' },
+    { label: 'Users', path: 'users', icon: '' },
   ]
 }

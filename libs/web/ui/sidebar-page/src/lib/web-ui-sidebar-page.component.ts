@@ -15,7 +15,7 @@ export interface WebUiSidebarPageLink {
           <nav class="space-y-1">
             <ng-container *ngFor="let link of links">
               <a
-                routerLinkActive="bg-gray-50 dark:bg-gray-700 text-pink-600 dark:text-pink-600 hover:bg-white"
+                routerLinkActive="bg-gray-50 dark:bg-gray-700 text-pink-700 dark:text-pink-700 hover:bg-white"
                 [routerLink]="link.path"
                 class="dark:bg-gray-800 dark:text-gray-400 text-gray-900 hover:text-gray-900 hover:bg-gray-50 group rounded-md px-3 py-2 flex items-center text-sm font-medium"
               >

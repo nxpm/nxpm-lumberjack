@@ -11,7 +11,7 @@ import { FieldType } from '@ngx-formly/core'
             <div class="flex items-center h-5">
               <input
                 type="checkbox"
-                class="focus:ring-pink-500 h-4 w-4 text-pink-600 border-gray-300 dark:bg-gray-800 dark:border-gray-600 rounded"
+                class="focus:ring-pink-500 h-4 w-4 text-pink-700 border-gray-300 dark:bg-gray-800 dark:border-gray-600 rounded"
                 [id]="id + '_' + i"
                 [value]="option.value"
                 [checked]="isChecked(option)"

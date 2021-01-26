@@ -10,6 +10,7 @@ fragment UserDetails on User {
   firstName
   lastName
   username
+  name
   avatarUrl
   email
   role

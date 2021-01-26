@@ -22,6 +22,10 @@ import { WebAdminFeatureComponent } from './web-admin-feature.component'
             path: 'logs',
             loadChildren: () => import('@nxpm-lumberjack/web/log/feature').then((m) => m.WebLogFeatureModule),
           },
+          {
+            path: 'users',
+            loadChildren: () => import('./admin-user/admin-user-feature.module').then((m) => m.AdminUserFeatureModule),
+          },
         ],
       },
     ]),

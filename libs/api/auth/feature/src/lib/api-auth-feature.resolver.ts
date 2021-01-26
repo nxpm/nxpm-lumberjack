@@ -1,14 +1,13 @@
+import { UseGuards } from '@nestjs/common'
+import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import {
   ApiAuthDataAccessService,
   CtxUser,
   GqlAuthGuard,
   LoginInput,
   RegisterInput,
-  User,
-  UserToken,
 } from '@nxpm-lumberjack/api/auth/data-access'
-import { Context, Query, Resolver, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql'
-import { UseGuards } from '@nestjs/common'
+import { User, UserToken } from '@nxpm-lumberjack/api/user/data-access'
 
 @Resolver(() => UserToken)
 export class ApiAuthFeatureResolver {
