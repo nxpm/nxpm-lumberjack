@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { ComponentStore, tapResponse } from '@ngrx/component-store'
 import { ApolloAngularSDK, CorePaging, Log } from '@nxpm-lumberjack/web/core/data-access'
-import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators'
+import { LogListLogger } from './log-list.logger'
 
 interface LogListState {
   items?: Log[]
@@ -13,7 +13,7 @@ interface LogListState {
 
 @Injectable()
 export class LogListStore extends ComponentStore<LogListState> {
-  constructor(private readonly sdk: ApolloAngularSDK, private readonly log: WebUtilLogService) {
+  constructor(private readonly sdk: ApolloAngularSDK, private readonly logListLogger: LogListLogger) {
     super({ paging: { limit: 10, skip: 0 }, open: {} })
     this.loadItemsEffect(this.paging$)
   }
@@ -53,7 +53,7 @@ export class LogListStore extends ComponentStore<LogListState> {
               }
               this.patchState({ items: res.data?.items })
             },
-            (e: any) => this.log.error('Error fetching Logs', e),
+            (e: any) => this.logListLogger.errorFetchingLogs(e),
           ),
         ),
       ),

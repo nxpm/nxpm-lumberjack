@@ -3,7 +3,6 @@ import { LumberjackLevel, LumberjackModule } from '@ngworker/lumberjack'
 import { LumberjackConsoleDriverModule } from '@ngworker/lumberjack/console-driver'
 import { LumberjackConfigLevels } from '@ngworker/lumberjack/lib/logs/lumberjack-config-levels'
 import { ApolloSdkDriverModule } from './apollo-sdk-driver/apollo-sdk-driver.module'
-import { WebUtilLogService } from './web-util-log.service'
 
 const levels: LumberjackConfigLevels = [LumberjackLevel.Verbose]
 
@@ -17,6 +16,5 @@ const levels: LumberjackConfigLevels = [LumberjackLevel.Verbose]
     }),
     ApolloSdkDriverModule.forRoot(),
   ],
-  providers: [WebUtilLogService],
 })
 export class WebUtilLogModule {}

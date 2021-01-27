@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { Log, LogLevel } from '@nxpm-lumberjack/web/core/data-access'
-import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
+import { LogListLogger } from './log-list.logger'
 import { LogListStore } from './log-list.store'
 
 @Component({
@@ -102,7 +102,7 @@ export class LogListComponent {
   readonly level = LogLevel
   readonly levels = Object.keys(LogLevel)
   readonly vm$ = this.store.vm$
-  constructor(private readonly store: LogListStore, private readonly log: WebUtilLogService) {}
+  constructor(private readonly store: LogListStore, private readonly logListLogger: LogListLogger) {}
 
   toggleItem(item: Log) {
     this.store.toggleItemEffect(item.id)
@@ -134,26 +134,26 @@ export class LogListComponent {
   }
 
   testCritical() {
-    this.log.critical('This is an Critical Log', { some: 'extra', data: 'object' })
+    this.logListLogger.criticalLog()
   }
 
   testDebug() {
-    this.log.debug('This is an Debug Log', { some: 'extra', data: 'object' })
+    this.logListLogger.debugLog()
   }
 
   testError() {
-    this.log.error('This is an Error Log', { some: 'extra', data: 'object' })
+    this.logListLogger.errorLog()
   }
 
   testInfo() {
-    this.log.info('This is an Info Log', { some: 'extra', data: 'object' })
+    this.logListLogger.infoLog()
   }
 
   testWarning() {
-    this.log.warning('This is an Warning Log', { some: 'extra', data: 'object' })
+    this.logListLogger.warningLog()
   }
 
   testTrace() {
-    this.log.trace('This is an Trace Log', { some: 'extra', data: 'object' })
+    this.logListLogger.traceLog()
   }
 }
