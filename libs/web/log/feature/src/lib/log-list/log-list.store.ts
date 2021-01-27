@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ComponentStore, tapResponse } from '@ngrx/component-store'
 import { ApolloAngularSDK, CorePaging, Log } from '@nxpm-lumberjack/web/core/data-access'
-import { WebUtilLogService } from '@nxpm-lumberjack/web/util/log'
 import { switchMap, tap, withLatestFrom } from 'rxjs/operators'
 import { LogListLogger } from './log-list.logger'
 
